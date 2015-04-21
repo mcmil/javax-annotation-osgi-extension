@@ -28,6 +28,15 @@ jar {
 
 }
 
+task sourcesJar(type: Jar, dependsOn: classes) {
+  classifier = 'sources'
+  from sourceSets.main.allSource
+
+  manifest {
+    from("src/main/resources/META-INF/MANIFEST.MF")
+  }
+}
+
 task('wrapper', type: Wrapper) {
   gradleVersion = '2.3'
 }
