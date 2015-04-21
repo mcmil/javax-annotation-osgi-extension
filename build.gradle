@@ -1,0 +1,33 @@
+repositories {
+  mavenCentral()
+  jcenter()
+}
+
+project.group = 'pl.cmil.wuff.bundles'
+project.version = '1.1.0'
+
+apply plugin: 'maven'
+apply plugin: 'java'
+
+configurations {
+  bundled
+}
+
+dependencies {
+  bundled 'javax.annotation:javax.annotation-api:1.2'
+}
+
+jar {
+  from {
+    configurations.bundled.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+
+  manifest {
+    from("src/main/resources/META-INF/MANIFEST.MF")
+  }
+
+}
+
+task('wrapper', type: Wrapper) {
+  gradleVersion = '2.3'
+}
